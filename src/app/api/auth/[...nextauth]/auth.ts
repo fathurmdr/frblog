@@ -20,17 +20,31 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, account }) {
       const existingUser = await prismaClient.user.findFirst({
         where: {
-          OR: [{ email: user.email }, { username: user.username }],
+          email: user.email,
         },
       });
 
-      if (existingUser) {
-        return false;
+      if (!existingUser) {
+        return true;
       }
-      return true;
+
+      const existingAccount = await prismaClient.account.findFirst({
+        where: {
+          userId: user.id,
+          provider: account?.provider,
+        },
+      });
+
+      if (existingAccount) {
+        return true;
+      }
+      return false;
     },
+  },
+  pages: {
+    signIn: "/sign-in",
   },
 };
