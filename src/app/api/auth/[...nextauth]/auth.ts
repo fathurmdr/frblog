@@ -19,11 +19,17 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     async signIn({ user, account }) {
       const existingUser = await prismaClient.user.findFirst({
         where: {
           email: user.email,
+        },
+        include: {
+          accounts: true,
         },
       });
 
@@ -41,7 +47,27 @@ export const authOptions: AuthOptions = {
       if (existingAccount) {
         return true;
       }
-      return false;
+      return `/sign-in?error=try-${existingUser.accounts[0].provider}`;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        const userRoles = await prismaClient.userRole.findMany({
+          where: { userId: user.id },
+        });
+        return {
+          ...token,
+          roles: userRoles.map((userRole) => userRole.type as string),
+        };
+      }
+      return token;
+    },
+    async session({ session }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+        },
+      };
     },
   },
   pages: {

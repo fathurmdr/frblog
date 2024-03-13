@@ -3,31 +3,66 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+/* Track */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #5b6b80;
+  border-radius: 8px;
+}
+
+/* Thumb saat dihover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #4a596b;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Track */
+scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Thumb */
+scrollbar thumb {
+  background-color: #5b6b80;
+  border: 3px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 8px;
+}
+
+/* Thumb saat dihover */
+scrollbar thumb:hover {
+  background-color: #4a596b;
+}
+
+scrollbar-corner {
+  background: transparent;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+button:focus {
+  outline: none;
 }
