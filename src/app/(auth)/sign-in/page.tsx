@@ -1,4 +1,5 @@
 import { getProviders } from "next-auth/react";
+import Link from "next/link";
 import SignInButton from "@/components/SignInButton";
 
 export default async function SignIn({
@@ -10,13 +11,10 @@ export default async function SignIn({
 
   function getError() {
     const { error } = searchParams;
-    if (error) {
-      if (error.includes("try")) {
-        const availableProvider = error.split("-")[1];
+    if (error?.includes("try")) {
+      const availableProvider = error.split("-")[1];
 
-        return `You already have an account with ${availableProvider}. Try signing in with ${availableProvider}.`;
-      }
-      return error;
+      return `You already have an account with ${availableProvider}. Try signing in with ${availableProvider}.`;
     }
     return "";
   }
@@ -24,7 +22,7 @@ export default async function SignIn({
   return (
     <main className="flex h-screen w-full flex-col items-center justify-center bg-white-2">
       <h1 className="mb-4 text-center text-4xl font-semibold italic text-black">
-        FR Blog
+        <Link href="/">FR Blog</Link>
       </h1>
       <div className="flex w-full min-w-80 max-w-sm flex-col gap-3 p-6 sm:w-fit">
         {providers &&

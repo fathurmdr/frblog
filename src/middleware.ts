@@ -22,9 +22,7 @@ export async function middleware(request: NextRequest) {
     return;
   }
 
-  if (!token) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
-  }
+  const isApiPath = pathname.startsWith("/api");
 
   const administratorMatcher = [
     /^\/admin/,
@@ -36,8 +34,18 @@ export async function middleware(request: NextRequest) {
     regex.test(pathname),
   );
 
+  const isAdmin = token?.roles.includes("admin");
+
   if (isAdminUrl) {
-    if (!token.roles.includes("admin")) {
+    if (!isAdmin && isApiPath) {
+      return NextResponse.json(
+        {
+          errors: "Not Authorized!",
+        },
+        { status: 401 },
+      );
+    }
+    if (!isAdmin) {
       return NextResponse.redirect(new URL("/", request.url));
     }
     return;
