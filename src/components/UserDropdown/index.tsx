@@ -42,14 +42,26 @@ export default function UserDropdown({ user }: UserDropdownProps) {
         } absolute right-0 top-0 translate-y-14 border border-stroke bg-graydark text-white shadow-4`}
       >
         <div className="flex items-center justify-between border-b border-white p-4">
-          <p className="flex h-10 w-10 flex-1 items-center justify-center rounded-full bg-white text-black">
-            {user?.name &&
-              user.name
-                .replace(/\b(\w)\w*\s*/g, (_: string, firstChar: string) =>
-                  firstChar.toUpperCase(),
-                )
-                .slice(0, 2)}
-          </p>
+          {user?.image ? (
+            <span className="flex h-10 w-10 flex-1 items-center justify-center rounded-full">
+              <Image
+                src={user.image}
+                alt="profile"
+                height={40}
+                width={40}
+                className="cursor-pointer rounded-full"
+              />
+            </span>
+          ) : (
+            <p className="flex h-10 w-10 flex-1 items-center justify-center rounded-full bg-white text-black">
+              {user?.name &&
+                user.name
+                  .replace(/\b(\w)\w*\s*/g, (_: string, firstChar: string) =>
+                    firstChar.toUpperCase(),
+                  )
+                  .slice(0, 2)}
+            </p>
+          )}
           <div className="ml-6 max-w-56 break-words">
             <p className="text-sm">{user?.name}</p>
             <p className="text-xs">{user?.email}</p>
