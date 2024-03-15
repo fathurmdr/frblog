@@ -88,15 +88,15 @@ model UserRole {
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
-  authorId    String   @map("author_id")
+  id          Int       @id @default(autoincrement())
+  authorId    String    @map("author_id")
   title       String
   slug        String
-  coverImage  String   @map("cover_image")
-  isPublished Boolean  @default(false) @map("is_published")
-  publishedAt DateTime @map("publsihed_at") @db.Timestamptz()
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+  coverImage  String    @map("cover_image")
+  isPublished Boolean   @default(false) @map("is_published")
+  publishedAt DateTime? @map("publsihed_at") @db.Timestamptz()
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
 
   author   User          @relation(fields: [authorId], references: [id], onUpdate: Cascade)
   contents PostContent[]
